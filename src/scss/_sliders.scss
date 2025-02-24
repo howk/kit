@@ -1,0 +1,37 @@
+.swiper {
+  &-nav {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &_next {
+      & svg {
+        transform: rotate(-90deg);
+      }
+    }
+
+    &_prev {
+      margin-right: 12px;
+
+      & svg {
+        transform: rotate(90deg);
+      }
+    }
+
+    & svg {
+      fill: var(--theme-color-text-common);
+    }
+
+    &:not(:disabled):hover svg {
+      fill: var(--theme-color-accent);
+    }
+
+    &_disabled {
+      cursor: default;
+    }
+  }
+}

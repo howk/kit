@@ -1,0 +1,18 @@
+{
+  "plugins": [
+    "stylelint-selector-bem-pattern"
+  ],
+  "rules": {
+    "declaration-block-no-redundant-longhand-properties": null,
+    "selector-class-pattern": null,
+    "shorthand-property-no-redundant-values": null,
+    "media-feature-range-notation": null,
+    "no-descending-specificity": null,
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number",
+    "plugin/selector-bem-pattern": {
+      "preset": "bem"
+    }
+  },
+  "extends": "stylelint-config-standard-scss"
+}

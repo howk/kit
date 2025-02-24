@@ -1,0 +1,25 @@
+:root {
+  --container-width: 1440px;
+  --main-outer-width: 1920px;
+  --container-padding: 30px;
+  --calculated-padding: calc((100% - var(--container-width)) / 2);
+  --theme-color-accent: rgb(0, 69, 109);
+  --theme-color-accent-50: rgba(0, 69, 109, 0.5);
+  --theme-color-grey: #a8a8aa;
+  --theme-color-text-common: #1d1d1d;
+  --theme-border-color: #ececec;
+  --theme-animation-duration: 200ms;
+  --theme-animation-duration-fast: 100ms;
+
+  @media (max-width: 767px) {
+    & {
+      --container-padding: 20px;
+    }
+  }
+
+  @media (max-width: 575px) {
+    & {
+      --container-padding: 15px;
+    }
+  }
+}

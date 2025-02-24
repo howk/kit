@@ -1,0 +1,7 @@
+/node_modules/
+.DS_Store
+dist/css/maps/**
+dist/css/styles.css
+dist/img/sprite.svg
+/package-lock.json
+dist/*.html
