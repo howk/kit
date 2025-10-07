@@ -1,3 +1,5 @@
+@use 'mixins' as *;
+
 .btn {
   display: inline-flex;
   justify-content: center;
@@ -78,7 +80,6 @@
   }
 }
 
-
 .btn-play {
   width: 110px;
   height: 110px;
@@ -101,7 +102,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgb(255, 255, 255, 0.4);
     position: absolute;
     left: 0;
     top: 0;
@@ -124,16 +125,15 @@
   }
 
   &:hover::before {
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgb(255, 255, 255, 0.6);
   }
 
   &:hover::after {
-    background-color: rgba(29, 29, 29, 0.6);
+    background-color: rgb(29, 29, 29, 0.6);
     width: 72%;
     height: 72%;
   }
 }
-
 
 .btn-text {
   font-size: 16px;
@@ -155,10 +155,9 @@
   }
 
   &:focus-visible {
-    outline: 3px rgba(0, 0, 0, 0.3) solid;
+    outline: 3px rgb(0, 0, 0, 0.3) solid;
   }
 }
-
 
 .btn-round {
   display: inline-flex;
@@ -180,7 +179,6 @@
     color: var(--theme-color-grey);
   }
 }
-
 
 .btn-icon {
   display: inline-flex;
@@ -244,7 +242,6 @@
   }
 }
 
-
 .btn-icon-text {
   font-size: 18px;
   color: var(--theme-color-grey);
@@ -270,7 +267,6 @@
   }
 }
 
-
 .form-group {
   &__label {
     display: block;
@@ -286,7 +282,6 @@
     }
   }
 }
-
 
 .field-input1 {
   width: 100%;
@@ -317,12 +312,10 @@
   }
 }
 
-
 textarea.field-input1 {
   height: 118px;
   resize: none;
 }
-
 
 .checklist {
   font-size: 0;
@@ -335,7 +328,6 @@ textarea.field-input1 {
     display: none;
   }
 }
-
 
 .checkbox {
   position: relative;
@@ -380,7 +372,6 @@ textarea.field-input1 {
   }
 }
 
-
 .radio {
   position: relative;
   font-size: 0;
@@ -409,7 +400,6 @@ textarea.field-input1 {
   }
 }
 
-
 .checkbox-text {
   display: inline-flex;
   justify-content: flex-start;
@@ -436,7 +426,6 @@ textarea.field-input1 {
   }
 }
 
-
 .select {
   display: inline-block;
   position: relative;
@@ -447,7 +436,7 @@ textarea.field-input1 {
     position: relative;
     height: 44px;
     border-radius: 30px;
-    border: 1px solid rgba(30, 30, 30, 0.3);
+    border: 1px solid rgb(30, 30, 30, 0.3);
     display: inline-flex;
     padding: 5px 50px 5px 20px;
     justify-content: flex-start;
@@ -539,7 +528,7 @@ textarea.field-input1 {
   &_1 .dropdown {
     box-shadow: none;
     border-radius: 4px;
-    border: 1px solid rgba(30, 30, 30, 0.3);
+    border: 1px solid rgb(30, 30, 30, 0.3);
     color: #82879A;
   }
 
@@ -641,7 +630,7 @@ textarea.field-input1 {
   overflow-y: auto;
   max-height: 375px;
   border-radius: 4px;
-  box-shadow: 0 6px 26px 4px rgba(30, 30, 30, 0.1);
+  box-shadow: 0 6px 26px 4px rgb(30, 30, 30, 0.1);
 }
 
 .ts-dropdown-content {
@@ -669,7 +658,6 @@ textarea.field-input1 {
     cursor: default;
   }
 }
-
 
 .input-group1 {
   display: flex;
@@ -711,7 +699,6 @@ textarea.field-input1 {
     }
   }
 }
-
 
 .pagination {
   display: inline-flex;
@@ -767,7 +754,6 @@ textarea.field-input1 {
     }
   }
 }
-
 
 .expandable {
   & [data-expandable-handle] {
@@ -836,105 +822,5 @@ textarea.field-input1 {
 
   &[data-expandable="expanded"] &__top {
     margin: 0 0 25px 0;
-  }
-}
-
-
-.stepcounter {
-  position: relative;
-  width: 106px;
-  height: 32px;
-  border-radius: 4px;
-  border: 1px rgba(30, 30, 30, 0.3) solid;
-  display: inline-flex;
-  justify-content: flex-start;
-  align-items: stretch;
-
-  &__btn {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    & svg {
-      fill: var(--theme-color-accent);
-    }
-
-    &[data-stepcounter="-"] {
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-
-      svg {
-        width: 12px;
-        height: 2px;
-      }
-    }
-
-    &[data-stepcounter="+"] {
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-
-      svg {
-        width: 12px;
-        height: 11px;
-      }
-    }
-
-    &:disabled {
-      cursor: default;
-
-      & svg {
-        fill: #82879A;
-      }
-    }
-
-    &:focus-visible {
-      position: relative;
-      z-index: 1;
-      outline: 1px var(--theme-color-accent) solid;
-    }
-  }
-
-  &__input {
-    width: 40px;
-    border-left: 1px rgba(30, 30, 30, 0.3) solid;
-    border-right: 1px rgba(30, 30, 30, 0.3) solid;
-    font-size: 14px;
-    font-weight: 700;
-    text-align: center;
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      appearance: none;
-      margin: 0;
-    }
-  }
-
-  &_accent {
-    border: none;
-    height: 44px;
-    background-color: var(--theme-color-accent);
-  }
-
-  &_accent &__input {
-    border-color: rgba(255, 255, 255, 0.1);
-    font-size: 16px;
-    color: #fff;
-    flex-grow: 1;
-  }
-
-  &_accent &__btn {
-    width: 56px;
-    flex-grow: 0;
-
-    & svg {
-      fill: #fff;
-    }
-
-    &:disabled {
-      & svg {
-        fill: rgba(255, 255, 255, 0.5);
-      }
-    }
   }
 }

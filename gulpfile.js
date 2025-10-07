@@ -10,6 +10,8 @@ const rename = require("gulp-rename");
 const sourcemaps = require('gulp-sourcemaps');
 const replace = require('gulp-replace');
 
+console.log(nunjucks)
+
 function sprites() {
   return gulp.src('dist/img/icons/*.svg')
   .pipe(svgSymbols({
@@ -23,7 +25,7 @@ function sprites() {
 function njk() {
   let cbString = new Date().getTime();
   return gulp.src('src/*.njk')
-    .pipe(nunjucks.compile({
+    .pipe(nunjucks.nunjucksCompile({
       autoescape: false
     }))
     .pipe(

@@ -1,5 +1,10 @@
 const AW = {};
 
+$.validator.addMethod('mobileRu', function(phone_number, element) {
+  const ruPhone_number = phone_number.replace( /\(|\)|\s+|-/g, "" );
+  return this.optional( element ) || ruPhone_number.length > 9 && /^((\+7|7|8)+([0-9]){10})$/.test(ruPhone_number);
+}, "Please specify a valid mobile number." );
+
 AW.FANCYBOX_DEFAULTS = {
   hideScrollbar: false,
   Hash: false,
@@ -31,150 +36,75 @@ AW.initMask = function($field) {
   }
 };
 
-AW.StepCounter = class {
-  /**
-   * Constructor function for creating an instance of the class.
-   *
-   * @param {jQuery} $element - The jQuery element to bind the functionality to.
-   * @param {function} callback - The callback function to be executed on value change.
-   * @throws {Error} Throws an error if the element is not found.
-   * @return {void}
-   */
-  constructor($element, callback) {
-    if (!$element) throw Error('Element not found!');
-    this.element = $element;
-    this.callback = callback || null;
-    this.btnIncreaseElement = $element.find('[data-stepcounter="+"]');
-    this.btnDecreaseElement = $element.find('[data-stepcounter="-"]');
-    this.fieldElement = $element.find('[data-stepcounter-input]');
-    this.valueElement = $element.find('[data-stepcounter-value]');
+AW.validateForm = function($el) {
+  if ($el.length === 0) return;
 
-    this.maxValue = Number(this.fieldElement.attr('max')) || 10000;
-    this.minValue = Number(this.fieldElement.attr('min')) || 0;
-    this.step = Number(this.fieldElement.attr('step')) || 1;
-    this.value = Number(this.fieldElement.val());
-
-    this.btnIncreaseElement.on('click', this.handleBtnIncrease.bind(this));
-    this.btnDecreaseElement.on('click', this.handleBtnDecrease.bind(this));
-
-    this.validateValue(this.value);
-  }
-
-/**
- * Handles the click event of the increase button.
- *
- * @param {Event} event - The click event object.
- * @return {undefined} This function does not return a value.
- */
-  handleBtnIncrease(event) {
-    event.preventDefault();
-    this.updateValue(this.value + this.step);
-  }
-
-/**
- * Handles the click event of the decrease button.
- *
- * @param {Event} event - The click event object.
- * @return {undefined} This function does not return a value.
- */
-  handleBtnDecrease(event) {
-    event.preventDefault();
-    this.updateValue(this.value - this.step);
-  }
-
-  /**
-   * Updates the value of the object and renders it.
-   *
-   * @param {number} newValue - The new value to be assigned.
-   * @param {boolean} noValidate - Flag indicating whether the value should be validated. Defaults to false.
-   */
-  updateValue(newValue, noValidate = false) {
-    const validatedValue = noValidate ? newValue : this.validateValue(newValue);
-    this.value = validatedValue;
-    this.renderValue(this.value);
-    if (this.callback) {
-      this.callback(this.value);
+  const validator = $el.validate({
+    ignore: [],
+    errorClass: 'form-group__error',
+    errorPlacement: function (error, element) {
+      const $parent = $(element).closest('.form-group').length ? $(element).closest('.form-group') : $(element).closest('.form-group1');
+      $parent.append(error);
+    },
+    highlight: function (element) {
+      const $parent = $(element).closest('.form-group').length ? $(element).closest('.form-group') : $(element).closest('.form-group1');
+      $parent.addClass('form-group_error');
+    },
+    unhighlight: function (element) {
+      const $parent = $(element).closest('.form-group').length ? $(element).closest('.form-group') : $(element).closest('.form-group1');
+      $parent.removeClass('form-group_error');
+    },
+    submitHandler: function(form, event) {
+      event.preventDefault();
+      const trigger = $el.attr('data-onsubmit-trigger');
+      if (trigger) {
+        $(document).trigger(trigger, {event, form});
+      } else {
+        form.submit();
+      }
     }
-  }
+  });
 
-  /**
-   * Disables a button based on the given parameter.
-   *
-   * @param {string} btn - The button to enable. It can be either 'increase' or 'decrease'.
-   */
-  disableBtn(btn) {
-    if (btn === 'increase') {
-      this.btnIncreaseElement.attr('disabled', true);
+  $el.find('.field-input1, .checkbox__input, select').each(function () {
+    if ($(this).is(':required')) {
+      if ($(this).attr('name') === 'agreement') {
+        $(this).rules('add', {
+            required: true,
+            messages: {
+                required: 'Вы должны согласиться',
+            }
+        });
+      } else {
+        $(this).rules('add', {
+          required: true,
+          messages: {
+            required: 'Заполните это поле',
+          }
+        });
+      }
     }
-    if (btn === 'decrease') {
-      this.btnDecreaseElement.attr('disabled', true);
+
+    if ($(this).attr('data-type') === 'phone') {
+      $(this).rules('add', {
+        mobileRu: true,
+        messages: {
+          mobileRu: 'Неверный формат',
+        }
+      });
     }
-  }
 
-  /**
-   * Enables a button based on the given parameter.
-   *
-   * @param {string} btn - The button to enable. It can be either 'increase' or 'decrease'.
-   */
-  enableBtn(btn) {
-    if (btn === 'increase') {
-      this.btnIncreaseElement.attr('disabled', false);
+    if ($(this).attr('data-type') === 'email') {
+      $(this).rules('add', {
+        email: true,
+        messages: {
+          email: 'Неверный формат',
+        }
+      });
     }
-    if (btn === 'decrease') {
-      this.btnDecreaseElement.attr('disabled', false);
-    }
-  }
+  });
 
-  /**
-   * Validates the given value based on the minimum and maximum values.
-   *
-   * @param {number} value - The value to be validated.
-   * @return {number} The validated value within the specified range.
-   */
-  validateValue(value) {
-    let validatedValue;
-    if (value >= this.maxValue) {
-      validatedValue = this.maxValue;
-      this.disableBtn('increase');
-    } else if (value <= this.minValue) {
-      validatedValue = this.minValue;
-      this.disableBtn('decrease');
-    } else {
-      validatedValue = value;
-      this.enableBtn('increase');
-      this.enableBtn('decrease');
-    }
-    return validatedValue;
-  }
-
-  /**
-   * Renders the value by updating the field element's value
-   * and the value element's text.
-   *
-   * @param {Number} value - The value to be rendered.
-   */
-  renderValue(value) {
-    this.fieldElement.val(value);
-    this.valueElement.text(value);
-  }
-
-  /**
-   * Retrieves the current value.
-   *
-   * @return {number} The current value.
-   */
-  getCurrentValue() {
-    return this.value;
-  }
-
-  /**
-   * This function destroys the event listeners for the button elements.
-   */
-  destroy() {
-    this.btnIncreaseElement.off('click', this.handleBtnIncrease.bind(this));
-    this.btnDecreaseElement.off('click', this.handleBtnDecrease.bind(this));
-  }
-};
+  return validator;
+}
 
 $(document).ready(() => {
   Fancybox.defaults.Hash = false;
@@ -203,11 +133,7 @@ $(document).ready(() => {
   $('body').removeClass('preload');
 
   $('[data-mask]').each(function () {
-    RBC.initMask($(this));
-  });
-
-  $('[data-stepcounter]').each(function() {
-    new AW.StepCounter($(this));
+    AW.initMask($(this));
   });
 
   $('[data-select1]').each(function() {

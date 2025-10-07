@@ -1,3 +1,5 @@
+@use 'mixins' as *;
+
 .header {
   border-bottom: 1px var(--theme-border-color) solid;
   position: sticky;

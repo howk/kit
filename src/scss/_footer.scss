@@ -1,3 +1,5 @@
+@use 'mixins' as *;
+
 .footer {
   width: 100%;
   background-color: var(--theme-color-text-common);

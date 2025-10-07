@@ -9,6 +9,7 @@
     "media-feature-range-notation": null,
     "no-descending-specificity": null,
     "color-function-notation": "legacy",
+    "color-function-alias-notation": "without-alpha",
     "alpha-value-notation": "number",
     "plugin/selector-bem-pattern": {
       "preset": "bem"

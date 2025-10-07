@@ -1,3 +1,5 @@
+@use 'mixins' as *;
+
 body {
   color: var(--theme-color-text-common);
   font-family: Verdana, sans-serif;
